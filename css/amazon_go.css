@@ -1,0 +1,453 @@
+/* ==========================================================================
+   Amazon Go "Just Walk Out" Specific UI Components
+   ========================================================================== */
+
+/* Welcome Screen Mode Selection */
+.mode-selection-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.mode-hero-card {
+  background: var(--bg-surface);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+}
+
+.mode-hero-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.mode-hero-card.highlight-go {
+  border-color: #10b981;
+  background: linear-gradient(145deg, #ffffff 0%, #f0fdf4 100%);
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.18);
+}
+
+.mode-pill-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.mode-pill-badge.go {
+  background: #059669;
+  color: #ffffff;
+}
+
+.mode-pill-badge.self {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.mode-card-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mode-card-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.mode-card-flow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #065f46;
+  background: rgba(16, 185, 129, 0.12);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+/* Amazon Go In-Store Entry Turnstile Screen */
+.turnstile-screen-wrap {
+  padding: 20px var(--app-padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.turnstile-pass-card {
+  background: #ffffff;
+  border: 3px solid #10b981;
+  border-radius: 24px;
+  padding: 20px;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+  margin: 14px 0 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.turnstile-scan-laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #10b981;
+  box-shadow: 0 0 15px #10b981;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.turnstile-scan-laser.scanning {
+  opacity: 1;
+  animation: turnstileScanAnim 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes turnstileScanAnim {
+  0% { top: 10px; }
+  100% { top: 92%; }
+}
+
+.turnstile-status-badge {
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+}
+
+.turnstile-status-badge.ready {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.turnstile-status-badge.unlocked {
+  background: #10b981;
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.5);
+  animation: popIn 0.3s ease;
+}
+
+/* Explanatory Concept Banners (Design Thinking clarity) */
+.concept-explainer-banner {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-left: 4px solid #2563eb;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.78rem;
+  color: #1e40af;
+  margin-bottom: 16px;
+  line-height: 1.45;
+}
+
+.concept-explainer-banner strong {
+  display: block;
+  font-size: 0.82rem;
+  color: #1e3a8a;
+  margin-bottom: 2px;
+}
+
+/* Dual Scanner Mode Switcher (AI Vision vs Barcode) */
+.scanner-mode-tabs {
+  display: flex;
+  background: #1e293b;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.scanner-mode-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.scanner-mode-tab.active {
+  background: #059669;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* AI Computer Vision AR Viewport */
+.ai-vision-viewport {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background: radial-gradient(circle at 50% 50%, #0f172a 0%, #000000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  margin-bottom: 14px;
+}
+
+.ai-mesh-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+.ai-camera-overhead-label {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 20;
+}
+
+.ai-camera-rec-dot {
+  width: 6px;
+  height: 6px;
+  background: #ef4444;
+  border-radius: 50%;
+  animation: blinkRec 1s infinite;
+}
+
+@keyframes blinkRec {
+  50% { opacity: 0.2; }
+}
+
+/* AI 3D Bounding Box */
+.ai-3d-box {
+  width: 190px;
+  height: 160px;
+  position: relative;
+  border: 2px solid #10b981;
+  background: rgba(16, 185, 129, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ai-3d-box::before, .ai-3d-box::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: #34d399;
+  border-style: solid;
+}
+
+.ai-3d-box::before {
+  top: -3px;
+  left: -3px;
+  border-width: 3px 0 0 3px;
+}
+
+.ai-3d-box::after {
+  bottom: -3px;
+  right: -3px;
+  border-width: 0 3px 3px 0;
+}
+
+.ai-target-crosshair {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 1px dashed rgba(52, 211, 153, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ai-tracked-item-icon {
+  font-size: 3rem;
+  margin-bottom: 4px;
+}
+
+.ai-tag-floating-card {
+  position: absolute;
+  bottom: -18px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid #10b981;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* AI Vision Action Controls */
+.ai-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.ai-action-btn {
+  background: #1e293b;
+  color: #ffffff;
+  border: 1px solid #334155;
+  padding: 10px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s;
+}
+
+.ai-action-btn:hover {
+  background: #334155;
+  border-color: #10b981;
+}
+
+.ai-action-btn.primary {
+  background: var(--primary);
+  border-color: var(--primary-border);
+}
+
+.ai-action-btn.primary:hover {
+  background: var(--primary-hover);
+}
+
+/* Sensor Telemetry Pill */
+.sensor-metric-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0f172a;
+  border: 1px solid #334155;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #38bdf8;
+  margin-bottom: 14px;
+}
+
+/* Just Walk Out Exit Gate View */
+.walkout-exit-card {
+  background: #ffffff;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.walkout-arch-svg {
+  width: 100%;
+  max-width: 220px;
+  height: 140px;
+  margin: 0 auto 12px;
+}
+
+.walkout-indicator-badge {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+/* Interactive Explainer Modal */
+.explainer-step-card {
+  display: flex;
+  gap: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.explainer-step-icon {
+  width: 44px;
+  height: 44px;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.explainer-step-body h4 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 3px;
+}
+
+.explainer-step-body p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}

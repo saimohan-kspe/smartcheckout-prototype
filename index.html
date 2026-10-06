@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCheckout - Design Thinking Prototype</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/presentation.css">
+  <link rel="stylesheet" href="css/amazon_go.css">
+</head>
+<body class="font-normal">
+
+  <!-- Top Presenter Bar for College / Project Demonstration -->
+  <header class="presenter-top-bar">
+    <div class="presenter-brand">
+      <div class="presenter-logo">
+        <span>🛒</span>
+        <span>SmartCheckout</span>
+      </div>
+      <span class="presenter-tag">Design Thinking Prototype</span>
+      <span id="presenter-current-screen-name" class="ctrl-btn" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); pointer-events: none;">WELCOME</span>
+    </div>
+
+    <div class="presenter-actions">
+      <!-- 1-Click Presentation Demo Mode -->
+      <button class="ctrl-btn demo-highlight" onclick="App.runPresentationDemo()" title="Run Golden Flow: Scan -> Cart -> Pay -> Exit Gate">
+        <span>⚡</span>
+        <strong>1-Click Demo Mode</strong>
+      </button>
+
+      <!-- Amazon Go Turnstile Entry -->
+      <button class="ctrl-btn" onclick="App.navigateTo('amazon_go_entry')" title="Demonstrate Amazon Go In-Store Turnstile Entry">
+        <span>🚪</span>
+        <span>Go Turnstile</span>
+      </button>
+
+      <!-- Amazon Go Concept Guide -->
+      <button class="ctrl-btn" onclick="App.openAmazonGoConceptModal()" title="View Amazon Go Technology & Architecture">
+        <span>💡</span>
+        <span>Go Concept</span>
+      </button>
+
+      <!-- Vision & RFID Autonomous Mode Switcher -->
+      <button class="ctrl-btn" onclick="App.navigateTo('autonomous')" title="Demonstrate Autonomous Computer Vision & RFID Store">
+        <span>👁️</span>
+        <span>Vision/RFID Store</span>
+      </button>
+
+      <!-- Language Selector -->
+      <div class="lang-toggle-group">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="te">తెలుగు</button>
+        <button class="lang-btn" data-lang="hi">हिन्दी</button>
+      </div>
+
+      <!-- Accessibility: High Contrast -->
+      <button class="ctrl-btn" onclick="App.toggleHighContrast()" title="Toggle High Contrast Mode">
+        <span>👁️‍🗨️</span>
+        <span>A11y</span>
+      </button>
+
+      <!-- Accessibility: Voice Assistance -->
+      <button class="ctrl-btn" onclick="App.toggleVoiceAssistance()" title="Toggle Voice Reader">
+        <span>🔊</span>
+        <span>Voice</span>
+      </button>
+
+      <!-- Design Thinking Project Notes -->
+      <button class="ctrl-btn" onclick="App.openDesignThinkingModal()" title="View Problem Statement, Empathy Map & HMW">
+        <span>💡</span>
+        <span>About Project</span>
+      </button>
+
+      <!-- Fullscreen / Responsive Viewport Toggle -->
+      <button class="ctrl-btn" onclick="document.body.classList.toggle('view-fullscreen')" title="Toggle Mobile Mockup / Fullscreen view">
+        <span>📱</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Presentation Stage -->
+  <main class="presentation-container">
+    <div class="device-stage">
+      
+      <!-- Flagship Smartphone Frame Mockup -->
+      <div class="smartphone-frame">
+        
+        <!-- Dynamic Island -->
+        <div class="phone-island-wrap">
+          <div class="island-camera"></div>
+          <div class="island-sensor"></div>
+        </div>
+
+        <!-- Phone Status Bar -->
+        <div class="phone-status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <span>5G</span>
+            <span>📶</span>
+            <span>100%</span>
+          </div>
+        </div>
+
+        <!-- Scrollable Screen Viewport -->
+        <div class="screen-container">
+
+          <!-- Active Store Assistant Call Banner -->
+          <div id="active-assistant-banner" class="assistant-active-banner" style="display: none;">
+            <div>
+              <strong>Staff En Route:</strong> Rajesh K. (<span id="assistant-countdown">2:00</span>)
+            </div>
+            <button class="btn btn-xs btn-outline" onclick="App.closeAssistantModal()">Dismiss</button>
+          </div>
+
+          <!-- ==========================================
+               SCREEN 1: WELCOME SCREEN
+               ========================================== -->
+          <section id="screen-welcome" class="app-screen active">
+            <div class="welcome-screen-wrap">
+              <span class="welcome-badge">Smart Supermarket Tech</span>
+              
+              <!-- Supermarket Vector Art -->
+              <div class="welcome-hero-art">
+                <svg viewBox="0 0 240 180" width="100%" height="160" fill="none">
+                  <rect x="20" y="40" width="200" height="110" rx="14" fill="#E2E8F0"/>
+                  <path d="M40 70h160v12H40zM40 95h160v12H40zM40 120h160v12H40z" fill="#94A3B8"/>
+                  <!-- Shelf items -->
+                  <rect x="45" y="52" width="18" height="18" rx="3" fill="#DC2626"/>
+                  <rect x="70" y="52" width="16" height="18" rx="3" fill="#F59E0B"/>
+                  <rect x="92" y="52" width="20" height="18" rx="3" fill="#10B981"/>
+                  <rect x="120" y="52" width="18" height="18" rx="3" fill="#0284C7"/>
+                  <rect x="145" y="52" width="20" height="18" rx="3" fill="#7C3AED"/>
+                  <!-- Smart Cart -->
+                  <circle cx="95" cy="155" r="8" fill="#334155"/>
+                  <circle cx="150" cy="155" r="8" fill="#334155"/>
+                  <path d="M75 110h85l-12 35H88L75 110z" fill="#059669" opacity="0.85"/>
+                  <path d="M65 100h15l15 45h60" stroke="#047857" stroke-width="4" stroke-linecap="round"/>
+                  <!-- Green verified signal -->
+                  <circle cx="185" cy="40" r="18" fill="#10B981"/>
+                  <path d="M178 40l5 5 10-10" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+
+              <h1 class="welcome-title" data-i18n="welcomeTitle">Welcome to SmartCheckout</h1>
+              <p class="welcome-subtitle" data-i18n="welcomeSubtitle">Shop faster. Skip the queue.</p>
+
+              <div class="welcome-features">
+                <div class="feat-item">
+                  <span class="feat-icon">⚡</span>
+                  <div class="feat-text">
+                    <h5>Zero Queue Waiting</h5>
+                    <p>Scan items as you pick them and bypass checkout counters.</p>
+                  </div>
+                </div>
+                <div class="feat-item">
+                  <span class="feat-icon">🛡️</span>
+                  <div class="feat-text">
+                    <h5>Instant Digital UPI & Cards</h5>
+                    <p>Secured payment directly from your smartphone.</p>
+                  </div>
+                </div>
+                <div class="feat-item">
+                  <span class="feat-icon">🚪</span>
+                  <div class="feat-text">
+                    <h5>Seamless Smart Gate Exit</h5>
+                    <p>Walk through the verified exit gate in under 3 seconds.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mode Selection: Amazon Go Model vs Self-Checkout -->
+              <div class="mode-selection-grid">
+                <!-- Option A: Amazon Go Just Walk Out -->
+                <div class="mode-hero-card highlight-go" onclick="App.navigateTo('amazon_go_entry')">
+                  <span class="mode-pill-badge go">Amazon Go Model</span>
+                  <div class="mode-card-title">
+                    <span>Just Walk Out Store</span>
+                    <span>⚡</span>
+                  </div>
+                  <p class="mode-card-desc">
+                    Scan app QR at turnstile, pick products naturally. Overhead 4K cameras & weight shelves track items. Just walk out!
+                  </p>
+                  <div class="mode-card-flow">
+                    <span>1. Turnstile Scan</span> → <span>2. Grab Items</span> → <span>3. Just Walk Out</span>
+                  </div>
+                  <button class="btn btn-primary btn-block btn-sm" style="margin-top: 10px;">
+                    Start Amazon Go Experience →
+                  </button>
+                </div>
+
+                <!-- Option B: Mobile Self-Checkout -->
+                <div class="mode-hero-card" onclick="App.navigateTo('login')">
+                  <span class="mode-pill-badge self">Self-Checkout</span>
+                  <div class="mode-card-title">
+                    <span>Mobile Barcode Scanner</span>
+                    <span>📱</span>
+                  </div>
+                  <p class="mode-card-desc">
+                    Scan product barcodes with your phone camera, review cart, and pay via UPI before exiting.
+                  </p>
+                  <div class="mode-card-flow" style="color: #1e40af; background: rgba(37, 99, 235, 0.1);">
+                    <span>1. Scan Barcode</span> → <span>2. Pay UPI</span> → <span>3. Exit Pass</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="welcome-cta-group">
+                <button class="btn btn-secondary btn-block" onclick="App.openAmazonGoConceptModal()">
+                  💡 Understand How "Just Walk Out" Works
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN: AMAZON GO IN-STORE ENTRY TURNSTILE
+               ========================================== -->
+          <section id="screen-amazon_go_entry" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.navigateTo('welcome')">‹</button>
+                <h3 class="header-title">Amazon Go Entry Pass</h3>
+              </div>
+              <div class="header-actions">
+                <button class="btn btn-secondary btn-xs" onclick="App.openAmazonGoConceptModal()">How it works</button>
+              </div>
+            </div>
+
+            <div class="turnstile-screen-wrap">
+              <div class="concept-explainer-banner">
+                <strong>🚪 Step 1: Scan Turnstile to Enter</strong>
+                Hold this QR code over the turnstile scanner. This links your identity to overhead vision cameras. Once inside, put your phone away and shop naturally!
+              </div>
+
+              <div id="turnstile-gate-badge" class="turnstile-status-badge ready">
+                GATE READY FOR SCAN
+              </div>
+
+              <!-- Animated In-Store Turnstile Pass Card -->
+              <div class="turnstile-pass-card">
+                <div id="turnstile-laser-beam" class="turnstile-scan-laser"></div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: #059669; text-transform: uppercase; margin-bottom: 8px;">
+                  SmartCheckout • Just Walk Out Key
+                </div>
+
+                <svg class="qr-code-svg" viewBox="0 0 100 100" style="width: 180px; height: 180px;">
+                  <rect width="100" height="100" fill="#ffffff"/>
+                  <rect x="8" y="8" width="28" height="28" fill="#059669" rx="4"/>
+                  <rect x="12" y="12" width="20" height="20" fill="#ffffff" rx="2"/>
+                  <rect x="16" y="16" width="12" height="12" fill="#059669"/>
+
+                  <rect x="64" y="8" width="28" height="28" fill="#059669" rx="4"/>
+                  <rect x="68" y="12" width="20" height="20" fill="#ffffff" rx="2"/>
+                  <rect x="72" y="16" width="12" height="12" fill="#059669"/>
+
+                  <rect x="8" y="64" width="28" height="28" fill="#059669" rx="4"/>
+                  <rect x="12" y="68" width="20" height="20" fill="#ffffff" rx="2"/>
+                  <rect x="16" y="72" width="12" height="12" fill="#059669"/>
+
+                  <rect x="42" y="12" width="16" height="8" fill="#0f172a"/>
+                  <rect x="42" y="26" width="10" height="14" fill="#059669"/>
+                  <rect x="42" y="46" width="16" height="12" fill="#0f172a"/>
+                  <rect x="64" y="44" width="26" height="8" fill="#059669"/>
+                  <rect x="64" y="58" width="14" height="16" fill="#0f172a"/>
+                  <rect x="82" y="64" width="10" height="22" fill="#059669"/>
+                  <rect x="42" y="64" width="16" height="24" fill="#059669"/>
+                </svg>
+
+                <div style="font-size: 0.85rem; font-weight: 700; color: #0f172a;">
+                  Customer #402 (UPI Linked)
+                </div>
+                <small style="color: #64748b;">Hitech City Store Turnstile #02</small>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <button id="btn-entry-turnstile" class="btn btn-primary btn-block pulse" onclick="App.simulateEntryTurnstileScan()">
+                  ⚡ Simulate Turnstile Scan & Enter →
+                </button>
+                <button class="btn btn-secondary btn-block" onclick="App.navigateTo('scan')">
+                  Go Directly to AI Vision Camera View
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 2: LOGIN / GUEST MODE
+               ========================================== -->
+          <section id="screen-login" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.goBack()">‹</button>
+                <h3 class="header-title" data-i18n="loginTitle">Fast Checkout Login</h3>
+              </div>
+            </div>
+
+            <div class="login-screen-wrap">
+              <div class="login-header-block">
+                <div style="font-size: 2.2rem; margin-bottom: 6px;">🛍️</div>
+                <h2 style="font-size: 1.2rem; font-weight: 700;" data-i18n="loginSubtitle">Select how you'd like to shop today</h2>
+              </div>
+
+              <div class="login-options-wrap">
+                <!-- Guest Mode (No personal data required) -->
+                <div class="login-option-card active" onclick="App.navigateTo('home')">
+                  <div class="login-opt-header">
+                    <span class="login-opt-icon">⚡</span>
+                    <strong class="login-opt-title" data-i18n="continueGuest">Continue as Guest</strong>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--text-muted);">
+                    Start shopping instantly. No registration or personal data required.
+                  </p>
+                  <button class="btn btn-primary btn-block btn-sm" style="margin-top: 10px;">
+                    Enter Store as Guest →
+                  </button>
+                </div>
+
+                <!-- Phone Login Simulation -->
+                <div class="login-option-card">
+                  <div class="login-opt-header">
+                    <span class="login-opt-icon">📱</span>
+                    <strong class="login-opt-title" data-i18n="continueMobile">Continue with Mobile Number</strong>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="phoneNumberLabel">
+                    Enter 10-digit Mobile Number for WhatsApp bill & rewards
+                  </p>
+                  <div class="login-input-row">
+                    <input type="tel" class="text-input" placeholder="98765 43210" value="9876543210" maxlength="10">
+                    <button class="btn btn-secondary btn-sm" onclick="App.navigateTo('home')" data-i18n="sendOtp">
+                      Login
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="privacy-security-box">
+                <span style="font-size: 1.4rem;">🔒</span>
+                <span data-i18n="privacyNotice">Your payment information is protected by 256-bit bank encryption.</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 3: HOME / SHOPPING SCREEN
+               ========================================== -->
+          <section id="screen-home" class="app-screen">
+            <!-- Header Bar -->
+            <div class="home-header-row">
+              <div class="store-brand-bar">
+                <div class="store-location-badge">
+                  <span>📍</span>
+                  <span data-i18n="storeName">SmartSupermarket - Hitech City</span>
+                </div>
+                <button class="cart-icon-btn" onclick="App.navigateTo('cart')" title="View Cart">
+                  🛒
+                  <span class="cart-badge-count">1</span>
+                </button>
+              </div>
+
+              <!-- Search Bar -->
+              <div class="search-box-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-input" class="search-input" placeholder="Search Lay's, Milk, Oil, Coke..." data-i18n-placeholder="searchPlaceholder">
+              </div>
+            </div>
+
+            <!-- Categories Filter -->
+            <div class="category-filter-scroll">
+              <button class="cat-pill active" data-cat="all" data-i18n="catAll">All Items</button>
+              <button class="cat-pill" data-cat="snacks" data-i18n="catSnacks">Snacks</button>
+              <button class="cat-pill" data-cat="beverages" data-i18n="catBeverages">Beverages</button>
+              <button class="cat-pill" data-cat="groceries" data-i18n="catGroceries">Groceries</button>
+              <button class="cat-pill" data-cat="personal_care" data-i18n="catPersonalCare">Personal Care</button>
+              <button class="cat-pill" data-cat="dairy" data-i18n="catDairy">Dairy</button>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="catalog-content-wrap">
+              <div class="section-label-row">
+                <span class="section-label" data-i18n="popularInStore">Popular in Store Today</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">₹ INR Pricing</span>
+              </div>
+              <div id="product-grid" class="product-grid">
+                <!-- Dynamically rendered via app.js -->
+              </div>
+            </div>
+
+            <!-- Floating Sticky Scan Bar -->
+            <div class="floating-scan-bar">
+              <div class="scan-bar-info" onclick="App.navigateTo('cart')" style="cursor: pointer;">
+                <small data-i18n="runningTotal">Total:</small>
+                <strong class="live-running-total">₹20</strong>
+              </div>
+              <button class="btn-main-scan" onclick="App.navigateTo('scan')">
+                <span>📷</span>
+                <span data-i18n="scanProductBtn">Scan Product</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 4: SCAN PRODUCT INTERACTION
+               ========================================== -->
+          <!-- ==========================================
+               SCREEN 4: DUAL SCANNER (AMAZON GO AI VISION & BARCODE)
+               ========================================== -->
+          <section id="screen-scan" class="app-screen">
+            <div class="screen-header" style="background: #0f172a; color: #ffffff; border-color: #334155;">
+              <div class="header-left">
+                <button class="back-btn" style="background: #1e293b; color: #ffffff;" onclick="App.navigateTo('home')">✕</button>
+                <h3 class="header-title" style="color: #ffffff;">Scanner & AI Vision</h3>
+              </div>
+              <div class="header-actions">
+                <button class="btn btn-secondary btn-xs" onclick="App.openAmazonGoConceptModal()">Explain</button>
+              </div>
+            </div>
+
+            <div style="padding: 10px 14px 0; background: #0f172a;">
+              <!-- Scanner Mode Tabs -->
+              <div class="scanner-mode-tabs">
+                <button class="scanner-mode-tab active" data-mode="ai_vision" onclick="App.switchScannerMode('ai_vision')">
+                  <span>👁️</span>
+                  <span>Amazon Go AI Vision</span>
+                </button>
+                <button class="scanner-mode-tab" data-mode="barcode" onclick="App.switchScannerMode('barcode')">
+                  <span>🏷️</span>
+                  <span>Retail Barcode</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- VIEW 1: AMAZON GO AI COMPUTER VISION & SENSOR FUSION -->
+            <div id="view-ai-vision" style="padding: 0 14px 14px; background: #0f172a; flex: 1; display: flex; flex-direction: column;">
+              <div class="concept-explainer-banner" style="background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); border-left-color: #10b981; color: #a7f3d0; margin-bottom: 10px;">
+                <strong style="color: #34d399;">👁️ How Amazon Go Works (Design Thinking Rationale):</strong>
+                Ceiling cameras track hands in 3D. When you take an item from the shelf, weight sensors verify the exact item taken and auto-add it to your bill. No barcode scanning needed!
+              </div>
+
+              <!-- AI Vision AR Viewport -->
+              <div class="ai-vision-viewport">
+                <div class="ai-mesh-grid"></div>
+                <div class="ai-camera-overhead-label">
+                  <div class="ai-camera-rec-dot"></div>
+                  <span>CAM-04 (CEILING RGB-D 120 FPS)</span>
+                </div>
+
+                <!-- 3D Bounding Box -->
+                <div id="ai-bounding-box-visual" class="ai-3d-box">
+                  <div class="ai-target-crosshair"></div>
+                  <div id="ai-target-icon" class="ai-tracked-item-icon" style="color: #FACC15;">
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M4 8h16M4 16h16"/><circle cx="12" cy="12" r="2"/></svg>
+                  </div>
+                  <div class="ai-tag-floating-card">
+                    <span id="ai-target-name">Lay's Classic</span>
+                    <span id="ai-target-price" style="color: #34d399;">₹20</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Real-Time Telemetry Bar -->
+              <div class="sensor-metric-bar">
+                <div>
+                  <span style="color: #94a3b8;">Weight:</span>
+                  <strong id="ai-target-weight" style="color: #34d399;">-52g on Shelf</strong>
+                </div>
+                <div>
+                  <span style="color: #94a3b8;">Match:</span>
+                  <strong id="ai-target-conf" style="color: #38bdf8;">99.6% Conf</strong>
+                </div>
+              </div>
+
+              <!-- Interactive Hand Grab / Return Buttons -->
+              <div class="ai-controls-grid">
+                <button class="ai-action-btn primary" onclick="App.simulateAiVisionPick()">
+                  <span>🤏</span>
+                  <span>Simulate Hand Grab</span>
+                  <small style="opacity: 0.85;">(AI Auto-Adds to Bill)</small>
+                </button>
+                <button class="ai-action-btn" onclick="App.simulateAiVisionReturn()">
+                  <span>↩️</span>
+                  <span>Put Back on Shelf</span>
+                  <small style="opacity: 0.85;">(AI Auto-Removes)</small>
+                </button>
+              </div>
+
+              <div style="display: flex; gap: 8px; margin-top: auto;">
+                <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="App.cycleAiTrackedProduct()">
+                  🔄 Cycle Item (Coke / Butter / Salt)
+                </button>
+                <button class="btn btn-primary btn-sm" style="flex: 1;" onclick="App.navigateTo('amazon_go_exit')">
+                  🚶 Exit Gate →
+                </button>
+              </div>
+            </div>
+
+            <!-- VIEW 2: TRADITIONAL BARCODE SCANNER VIEWPORT -->
+            <div id="view-barcode" class="scanner-viewport-wrap" style="display: none;">
+              <div class="scanner-viewfinder">
+                <div id="camera-flash-overlay" class="camera-flash-overlay"></div>
+                <div class="scanner-target-box">
+                  <div class="scanner-laser-line"></div>
+                </div>
+                <div class="scanner-hint-text" data-i18n="scannerHelper">
+                  Align barcode inside the frame to scan automatically
+                </div>
+              </div>
+
+              <div class="scanner-bottom-controls">
+                <div class="scanner-quick-tools">
+                  <button class="btn btn-primary btn-block" onclick="App.simulateBarcodeScan()">
+                    <span>⚡</span>
+                    <span data-i18n="simulateScanBtn">Simulate Scan</span>
+                  </button>
+                </div>
+
+                <div style="display: flex; gap: 8px;">
+                  <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="App.triggerScanError()" data-i18n="simulateErrorBtn">
+                    Trigger Scan Error
+                  </button>
+                  <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="App.navigateTo('manual_barcode')" data-i18n="enterBarcodeManually">
+                    Manual Barcode
+                  </button>
+                </div>
+              </div>
+            </div>
+
+              <!-- Scan Success Bottom Sheet -->
+              <div id="scan-success-sheet" class="bottom-sheet">
+                <div class="sheet-handle"></div>
+                <div class="sheet-success-header">
+                  <span>✓</span>
+                  <span data-i18n="productAddedSuccess">Product Added Successfully ✓</span>
+                </div>
+
+                <div class="scanned-item-card">
+                  <div id="scanned-icon-holder" class="scanned-item-icon"></div>
+                  <div>
+                    <h4 id="scanned-product-name" style="font-size: 0.95rem; font-weight: 700;">Lay's Classic</h4>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin: 2px 0 6px;">
+                      <span data-i18n="barcodeDetected">Barcode:</span> <code id="scanned-barcode-value">8901491101831</code>
+                    </div>
+                    <div id="scanned-product-price" style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">₹20</div>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                  <button class="btn btn-secondary btn-block" onclick="App.resetScannerView()" data-i18n="addAnother">
+                    + Add Another
+                  </button>
+                  <button class="btn btn-primary btn-block" onclick="App.navigateTo('cart')" data-i18n="viewCart">
+                    View Cart →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 5: MANUAL BARCODE ENTRY
+               ========================================== -->
+          <section id="screen-manual_barcode" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.navigateTo('scan')">‹</button>
+                <h3 class="header-title" data-i18n="manualBarcodeInputTitle">Enter Barcode Number</h3>
+              </div>
+            </div>
+
+            <div style="padding: 20px var(--app-padding);">
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;" data-i18n="manualBarcodePrompt">
+                Type the 13-digit EAN code printed below the barcode:
+              </p>
+
+              <input type="text" id="manual-barcode-input" class="text-input" placeholder="8901491101831" value="8901491101831" style="font-family: monospace; font-size: 1.2rem; letter-spacing: 2px; text-align: center; margin-bottom: 20px;">
+
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value += '1'">1</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value += '2'">2</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value += '3'">3</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value += '4'">4</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value += '5'">5</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value += '6'">6</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value += '7'">7</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value += '8'">8</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value += '9'">9</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value = ''">Clear</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value += '0'">0</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('manual-barcode-input').value = document.getElementById('manual-barcode-input').value.slice(0, -1)">⌫</button>
+              </div>
+
+              <button class="btn btn-primary btn-block" onclick="App.simulateBarcodeScan('lays_classic'); App.navigateTo('scan');">
+                Submit Barcode →
+              </button>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 6: SCAN ERROR HANDLING
+               ========================================== -->
+          <section id="screen-scan_error" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.navigateTo('scan')">‹</button>
+                <h3 class="header-title">Scanner Error</h3>
+              </div>
+            </div>
+
+            <div style="padding: 30px var(--app-padding); text-align: center; display: flex; flex-direction: column; align-items: center; flex: 1;">
+              <div style="width: 72px; height: 72px; border-radius: 50%; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin-bottom: 20px;">
+                ⚠️
+              </div>
+              <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 8px;" data-i18n="scanErrorTitle">We couldn't recognize this product</h2>
+              <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 30px;" data-i18n="scanErrorSub">
+                The barcode might be damaged, obscured, or missing from database.
+              </p>
+
+              <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                <button class="btn btn-primary btn-block" onclick="App.navigateTo('scan')" data-i18n="scanAgain">
+                  Scan Again
+                </button>
+                <button class="btn btn-secondary btn-block" onclick="App.navigateTo('manual_barcode')" data-i18n="enterBarcodeManually">
+                  Enter Barcode Manually
+                </button>
+                <button class="btn btn-outline btn-block" onclick="App.requestAssistant()" data-i18n="getAssistance">
+                  Request Store Assistant
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 7: SHOPPING CART
+               ========================================== -->
+          <section id="screen-cart" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.navigateTo('home')">‹</button>
+                <h3 class="header-title" data-i18n="cartTitle">Shopping Cart</h3>
+              </div>
+              <div class="header-actions">
+                <button class="btn btn-outline btn-xs" onclick="App.clearEntireCart()" data-i18n="clearCart">Clear</button>
+              </div>
+            </div>
+
+            <div class="cart-wrap">
+              <!-- Empty State -->
+              <div id="cart-empty-state" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 12px;">🛒</div>
+                <h3 data-i18n="emptyCartTitle">Your cart is empty</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;" data-i18n="emptyCartSub">
+                  Scan products or pick items from the store to add them here.
+                </p>
+                <button class="btn btn-primary" onclick="App.navigateTo('scan')">Scan an Item Now</button>
+              </div>
+
+              <!-- Cart Content -->
+              <div id="content-wrap">
+                <!-- Cart Items List -->
+                <div id="cart-items-list" class="cart-items-list">
+                  <!-- Dynamically rendered -->
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary-card">
+                  <div class="summary-row">
+                    <span data-i18n="subtotal">Subtotal</span>
+                    <strong id="cart-subtotal">₹20</strong>
+                  </div>
+                  <div class="summary-row discount">
+                    <span data-i18n="discountCoupon">Self-Checkout Discount</span>
+                    <strong id="cart-discount">- ₹0</strong>
+                  </div>
+                  <div class="summary-row">
+                    <span data-i18n="taxGst">GST (Taxes 5%)</span>
+                    <strong id="cart-tax">₹1</strong>
+                  </div>
+                  <div class="summary-divider"></div>
+                  <div class="summary-row grand-total">
+                    <span data-i18n="totalAmount">Total Amount</span>
+                    <strong id="cart-total" style="color: var(--primary);">₹21</strong>
+                  </div>
+                </div>
+
+                <!-- Cart CTAs -->
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  <button class="btn btn-primary btn-block pulse" onclick="App.navigateTo('security')">
+                    <span data-i18n="proceedToPayment">Proceed to Payment</span>
+                    <span id="pay-btn-total" style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 12px; margin-left: 6px;">₹21</span>
+                  </button>
+                  <button class="btn btn-secondary btn-block" onclick="App.navigateTo('home')" data-i18n="continueShopping">
+                    Continue Shopping
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 8: SECURITY CHECK
+               ========================================== -->
+          <section id="screen-security" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.navigateTo('cart')">‹</button>
+                <h3 class="header-title" data-i18n="securityTitle">Secure Checkout</h3>
+              </div>
+            </div>
+
+            <div class="security-screen-wrap">
+              <div class="security-shield-icon">🛡️</div>
+              <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;" data-i18n="securityTitle">Secure Checkout</h2>
+              <p style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="securitySubtitle">
+                Performing real-time security verification
+              </p>
+
+              <div class="security-checklist">
+                <div id="sec-step-1" class="sec-step-item">
+                  <div class="sec-check-bubble">✓</div>
+                  <span style="font-size: 0.85rem; font-weight: 600;" data-i18n="secItem1">
+                    Items & quantities verified in smart cart
+                  </span>
+                </div>
+                <div id="sec-step-2" class="sec-step-item">
+                  <div class="sec-check-bubble">✓</div>
+                  <span style="font-size: 0.85rem; font-weight: 600;" data-i18n="secItem2">
+                    Store inventory sync & total calculated
+                  </span>
+                </div>
+                <div id="sec-step-3" class="sec-step-item">
+                  <div class="sec-check-bubble">✓</div>
+                  <span style="font-size: 0.85rem; font-weight: 600;" data-i18n="secItem3">
+                    Secure 256-bit payment gateway connected
+                  </span>
+                </div>
+              </div>
+
+              <div style="background: #f1f5f9; padding: 12px; border-radius: var(--radius-md); font-size: 0.8rem; color: var(--text-muted); margin-bottom: 24px;" data-i18n="securityBadge">
+                Your checkout is protected by secure payment verification.
+              </div>
+
+              <button id="sec-proceed-btn" class="btn btn-primary btn-block" onclick="App.navigateTo('payment')" data-i18n="continueToPayment">
+                Continue to Payment →
+              </button>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 9: PAYMENT SCREEN
+               ========================================== -->
+          <section id="screen-payment" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.navigateTo('security')">‹</button>
+                <h3 class="header-title" data-i18n="paymentTitle">Choose Payment Method</h3>
+              </div>
+            </div>
+
+            <div class="payment-screen-wrap">
+              <div class="pay-amount-banner">
+                <div>
+                  <small style="opacity: 0.85;" data-i18n="payableAmount">Amount to Pay</small>
+                  <h2 class="payment-final-amount" style="font-size: 1.6rem; font-weight: 800;">₹105</h2>
+                </div>
+                <span style="font-size: 1.8rem;">🔒</span>
+              </div>
+
+              <!-- Payment Method Tabs -->
+              <div class="pay-method-tabs">
+                <button class="pay-method-tab active" data-tab="upi" onclick="App.selectPaymentTab('upi')">
+                  UPI Pay
+                </button>
+                <button class="pay-method-tab" data-tab="cards" onclick="App.selectPaymentTab('cards')">
+                  Card
+                </button>
+                <button class="pay-method-tab" data-tab="wallets" onclick="App.selectPaymentTab('wallets')">
+                  Wallet
+                </button>
+              </div>
+
+              <!-- View 1: UPI -->
+              <div class="payment-subview active" data-view="upi">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;" data-i18n="popularUpiApps">
+                  Or tap your favorite UPI App:
+                </p>
+                <div class="upi-apps-grid">
+                  <div class="upi-app-card active" data-app="gpay" onclick="App.selectUpiApp('gpay')">
+                    <span class="upi-app-logo">🟢</span>
+                    <span>Google Pay</span>
+                  </div>
+                  <div class="upi-app-card" data-app="phonepe" onclick="App.selectUpiApp('phonepe')">
+                    <span class="upi-app-logo">🟣</span>
+                    <span>PhonePe</span>
+                  </div>
+                  <div class="upi-app-card" data-app="paytm" onclick="App.selectUpiApp('paytm')">
+                    <span class="upi-app-logo">🔵</span>
+                    <span>Paytm UPI</span>
+                  </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                  <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 6px;" data-i18n="enterUpiId">
+                    Enter UPI ID
+                  </label>
+                  <input type="text" class="text-input" placeholder="customer@upi" value="customer@okaxis" style="width: 100%;">
+                </div>
+              </div>
+
+              <!-- View 2: Cards -->
+              <div class="payment-subview" data-view="cards">
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                  <div>
+                    <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;" data-i18n="cardNumber">Card Number</label>
+                    <input type="text" class="text-input" value="4532 •••• •••• 8821" style="width: 100%;">
+                  </div>
+                  <div style="display: flex; gap: 10px;">
+                    <div style="flex: 1;">
+                      <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;" data-i18n="cardExpiry">Expiry</label>
+                      <input type="text" class="text-input" value="08/29" style="width: 100%;">
+                    </div>
+                    <div style="flex: 1;">
+                      <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 4px;" data-i18n="cardCvv">CVV</label>
+                      <input type="password" class="text-input" value="•••" maxlength="3" style="width: 100%;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- View 3: Wallets -->
+              <div class="payment-subview" data-view="wallets">
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+                  <label class="login-option-card active" style="display: flex; align-items: center; justify-content: space-between;">
+                    <span>Paytm Postpaid / Wallet</span>
+                    <input type="radio" name="wallet" checked>
+                  </label>
+                  <label class="login-option-card" style="display: flex; align-items: center; justify-content: space-between;">
+                    <span>Amazon Pay Balance</span>
+                    <input type="radio" name="wallet">
+                  </label>
+                </div>
+              </div>
+
+              <button class="btn btn-primary btn-block pulse" onclick="App.executePayment()">
+                <span data-i18n="payWith">Pay</span>
+                <span class="payment-final-amount">₹105</span>
+                <span>→</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 10: PAYMENT PROCESSING
+               ========================================== -->
+          <section id="screen-processing" class="app-screen">
+            <div class="processing-screen-wrap">
+              <div class="proc-spinner"></div>
+              <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 8px;" data-i18n="processingTitle">
+                Processing Payment...
+              </h2>
+              <p id="proc-status-1" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="processingSub">
+                Connecting to NPCI UPI Gateway...
+              </p>
+              <div style="background: #f1f5f9; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; color: var(--text-subtle);">
+                🔒 256-bit Encrypted Session
+              </div>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 11: PAYMENT SUCCESS
+               ========================================== -->
+          <section id="screen-success" class="app-screen">
+            <div class="success-screen-wrap">
+              <div class="success-badge-large">✓</div>
+              <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 4px;" data-i18n="paymentSuccessTitle">
+                Payment Successful ✓
+              </h2>
+              <p style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="paymentSuccessSub">
+                Thank you! Your transaction is complete.
+              </p>
+
+              <div class="tx-details-box">
+                <div class="tx-row">
+                  <span data-i18n="transactionId">Transaction ID</span>
+                  <strong id="success-tx-id">SCX20268849X</strong>
+                </div>
+                <div class="tx-row">
+                  <span data-i18n="amountPaid">Amount Paid</span>
+                  <strong id="success-amount" style="color: var(--primary);">₹105</strong>
+                </div>
+                <div class="tx-row">
+                  <span data-i18n="paymentTime">Timestamp</span>
+                  <span id="success-timestamp">26 Sep 2026, 13:54</span>
+                </div>
+              </div>
+
+              <!-- Channel quick share buttons -->
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;" data-i18n="sendReceipt">Send Receipt:</p>
+              <div class="receipt-channel-buttons">
+                <button class="btn btn-secondary btn-sm" onclick="App.sendReceiptSimulation('whatsapp')">💬 WhatsApp</button>
+                <button class="btn btn-secondary btn-sm" onclick="App.sendReceiptSimulation('sms')">📱 SMS</button>
+                <button class="btn btn-secondary btn-sm" onclick="App.sendReceiptSimulation('email')">✉️ Email</button>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <button class="btn btn-primary btn-block pulse" onclick="App.navigateTo('exit_gate')" data-i18n="proceedToExit">
+                  Proceed to Exit Gate →
+                </button>
+                <button class="btn btn-secondary btn-block" onclick="App.navigateTo('receipt')" data-i18n="viewReceipt">
+                  View Detailed Tax Invoice
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 12: DIGITAL TAX RECEIPT
+               ========================================== -->
+          <section id="screen-receipt" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.navigateTo('success')">‹</button>
+                <h3 class="header-title" data-i18n="digitalReceiptTitle">SmartCheckout Tax Invoice</h3>
+              </div>
+            </div>
+
+            <div style="padding: 16px var(--app-padding);">
+              <div class="digital-receipt-card">
+                <div class="receipt-header-row">
+                  <h3 style="font-size: 1rem; font-weight: 800;">SMART SUPERMARKET</h3>
+                  <small>GSTIN: 36AAAAA0000A1Z5</small><br>
+                  <small>Store #04, Hitech City, Hyderabad</small>
+                </div>
+
+                <div class="receipt-row">
+                  <span>TXN:</span>
+                  <span id="receipt-tx-id">SCX20268849X</span>
+                </div>
+                <div class="receipt-row">
+                  <span>DATE:</span>
+                  <span id="receipt-date">26-09-2026</span>
+                </div>
+                <div class="receipt-row">
+                  <span>METHOD:</span>
+                  <span id="receipt-pay-method">UPI / GPAY</span>
+                </div>
+
+                <div style="border-top: 1px dashed #cbd5e1; margin: 10px 0;"></div>
+
+                <div id="receipt-items-table">
+                  <!-- Dynamically populated -->
+                </div>
+
+                <div style="border-top: 1px dashed #cbd5e1; margin: 10px 0;"></div>
+
+                <div class="receipt-row">
+                  <span>SUBTOTAL:</span>
+                  <strong id="receipt-subtotal">₹105</strong>
+                </div>
+                <div class="receipt-row" style="color: var(--primary);">
+                  <span>DISCOUNT:</span>
+                  <strong id="receipt-discount">- ₹0</strong>
+                </div>
+                <div class="receipt-row">
+                  <span>GST TAX:</span>
+                  <strong id="receipt-tax">₹5</strong>
+                </div>
+                <div class="receipt-row" style="font-size: 1rem; font-weight: bold; border-top: 1px dashed #94a3b8; padding-top: 6px;">
+                  <span>TOTAL PAID:</span>
+                  <strong id="receipt-grand-total">₹105</strong>
+                </div>
+              </div>
+
+              <button class="btn btn-primary btn-block" onclick="App.navigateTo('exit_gate')" data-i18n="proceedToExit">
+                Proceed to Exit Gate →
+              </button>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 13: CHECKOUT-FREE EXIT GATE
+               ========================================== -->
+          <section id="screen-exit_gate" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.navigateTo('success')">‹</button>
+                <h3 class="header-title" data-i18n="exitTitle">You're Ready to Go!</h3>
+              </div>
+            </div>
+
+            <div class="exit-gate-wrap">
+              <div id="exit-gate-status-pill" class="gate-pill locked" data-i18n="gateStatusLocked">
+                GATE READY FOR SCAN
+              </div>
+
+              <!-- Animated Exit QR Gate Pass Card -->
+              <div id="exit-gate-card" class="qr-pass-card">
+                <svg class="qr-code-svg" viewBox="0 0 100 100">
+                  <!-- Simulated High Quality QR Matrix -->
+                  <rect width="100" height="100" fill="#ffffff"/>
+                  <rect x="10" y="10" width="26" height="26" fill="#0f172a" rx="4"/>
+                  <rect x="14" y="14" width="18" height="18" fill="#ffffff" rx="2"/>
+                  <rect x="18" y="18" width="10" height="10" fill="#0f172a"/>
+
+                  <rect x="64" y="10" width="26" height="26" fill="#0f172a" rx="4"/>
+                  <rect x="68" y="14" width="18" height="18" fill="#ffffff" rx="2"/>
+                  <rect x="72" y="18" width="10" height="10" fill="#0f172a"/>
+
+                  <rect x="10" y="64" width="26" height="26" fill="#0f172a" rx="4"/>
+                  <rect x="14" y="68" width="18" height="18" fill="#ffffff" rx="2"/>
+                  <rect x="18" y="72" width="10" height="10" fill="#0f172a"/>
+
+                  <rect x="42" y="12" width="16" height="6" fill="#059669"/>
+                  <rect x="42" y="24" width="10" height="12" fill="#0f172a"/>
+                  <rect x="42" y="44" width="16" height="12" fill="#059669"/>
+                  <rect x="64" y="44" width="24" height="6" fill="#0f172a"/>
+                  <rect x="64" y="56" width="12" height="16" fill="#059669"/>
+                  <rect x="80" y="64" width="10" height="20" fill="#0f172a"/>
+                  <rect x="42" y="64" width="16" height="22" fill="#0f172a"/>
+                </svg>
+
+                <strong style="font-size: 0.95rem; margin-bottom: 2px;" data-i18n="exitGateVerified">Exit Gate Verified ✓</strong>
+                <small style="color: var(--text-muted);" data-i18n="scanPassPrompt">Tap pass against gate scanner to open turnstile</small>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                <button id="tap-gate-btn" class="btn btn-primary btn-block pulse" onclick="App.simulateGateTap()" data-i18n="tapAtGateBtn">
+                  🚪 Simulate Gate Tap & Open
+                </button>
+                <button class="btn btn-secondary btn-block" onclick="App.finishShoppingFlow()" data-i18n="finishShopping">
+                  Finish Shopping
+                </button>
+              </div>
+
+              <small style="color: var(--text-subtle); margin-top: 16px;" data-i18n="gateHelper">
+                Gate sensor will auto-close 10s after you exit.
+              </small>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN 14: AUTONOMOUS VISION & RFID MODE
+               ========================================== -->
+          <section id="screen-autonomous" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.navigateTo('home')">‹</button>
+                <h3 class="header-title" data-i18n="autonomousModeTitle">Vision & RFID Store</h3>
+              </div>
+            </div>
+
+            <div class="autonomous-mode-wrap">
+              <div style="background: #1e293b; color: #ffffff; padding: 12px; border-radius: var(--radius-md); margin-bottom: 16px;">
+                <h4 style="font-size: 0.9rem; font-weight: 700; color: #34d399;" data-i18n="autonomousSub">
+                  AI Computer Vision + Weight Sensors
+                </h4>
+                <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 4px;" data-i18n="shelfInstruction">
+                  Tap an item below to pick it from the shelf into your smart cart:
+                </p>
+              </div>
+
+              <!-- Interactive Shelf Grid -->
+              <h5 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 8px;" data-i18n="smartShelfTitle">Interactive Supermarket Smart Shelf</h5>
+              <div id="autonomous-shelf-grid" class="autonomous-shelf-grid">
+                <!-- Dynamically rendered -->
+              </div>
+
+              <!-- Live Smart Cart -->
+              <h5 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 8px;" data-i18n="smartCartTitle">Live Smart Cart (Sensors Active)</h5>
+              <div id="autonomous-cart-list" style="background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px; min-height: 80px;">
+                <!-- Dynamically rendered -->
+              </div>
+
+              <!-- Sensor Telemetry Feed -->
+              <h5 style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;" data-i18n="sensorEventLog">Live Sensor Telemetry Feed:</h5>
+              <div id="autonomous-telemetry-logs" class="telemetry-feed-card">
+                <!-- Real-time log entries -->
+              </div>
+
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <span style="font-weight: 700;">Cart Balance:</span>
+                <strong id="autonomous-cart-total" style="font-size: 1.2rem; color: var(--primary);">₹0</strong>
+              </div>
+
+              <button class="btn btn-primary btn-block pulse" onclick="App.navigateTo('amazon_go_exit')" data-i18n="walkOutCheckout">
+                Walk Out & Auto-Charge →
+              </button>
+            </div>
+          </section>
+
+          <!-- ==========================================
+               SCREEN: AMAZON GO JUST WALK OUT EXIT GATE
+               ========================================== -->
+          <section id="screen-amazon_go_exit" class="app-screen">
+            <div class="screen-header">
+              <div class="header-left">
+                <button class="back-btn" onclick="App.navigateTo('autonomous')">‹</button>
+                <h3 class="header-title">Just Walk Out Exit Gate</h3>
+              </div>
+              <div class="header-actions">
+                <button class="btn btn-secondary btn-xs" onclick="App.openAmazonGoConceptModal()">Explain</button>
+              </div>
+            </div>
+
+            <div class="exit-gate-wrap" style="padding: 20px 18px;">
+              <div class="concept-explainer-banner" style="background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); border-left-color: #10b981; color: #065f46; margin-bottom: 14px;">
+                <strong>🚶‍♂️ Step 3: Zero-Queue Exit Gate</strong>
+                No cashiers, no scanning, no waiting. Ceiling motion sensors detect you walking through the exit threshold and auto-debit your linked UPI.
+              </div>
+
+              <!-- Animated Walkout Exit Arch -->
+              <div class="walkout-exit-card">
+                <div class="walkout-indicator-badge">
+                  <span>🟢 SENSORS ARMED — WALK OUT FREELY</span>
+                </div>
+
+                <svg class="walkout-arch-svg" viewBox="0 0 200 130" fill="none">
+                  <!-- Smart Exit Turnstile Arch -->
+                  <path d="M20 120V30C20 18.9543 28.9543 10 40 10H160C171.046 10 180 18.9543 180 30V120" stroke="#059669" stroke-width="8" stroke-linecap="round"/>
+                  <!-- Sensor beam rays -->
+                  <path d="M40 30L80 110M160 30L120 110M100 15L100 110" stroke="#10b981" stroke-width="2" stroke-dasharray="4 4" opacity="0.6"/>
+                  <!-- Ground scanner plate -->
+                  <rect x="35" y="112" width="130" height="12" rx="4" fill="#E2E8F0"/>
+                  <rect x="60" y="115" width="80" height="6" rx="3" fill="#10B981"/>
+                  <!-- Green pulse icon -->
+                  <circle cx="100" cy="55" r="22" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+                  <path d="M92 55l6 6 12-12" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
+                <h4 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
+                  Smart Exit Gate Ready
+                </h4>
+                <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 12px;">
+                  Virtual basket total: <strong id="walkout-total-amount" style="color: #059669; font-size: 1rem;">₹0</strong> (<span id="walkout-items-count">0 items</span>)
+                </p>
+                <div style="background: #f1f5f9; padding: 6px 12px; border-radius: 20px; font-size: 0.72rem; color: #64748b; display: inline-block;">
+                  💳 UPI Auto-Debit: customer@okaxis
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <button class="btn btn-primary btn-block pulse" onclick="App.executeJustWalkOut()">
+                  🚶‍♂️ Walk Out Through Gate (Auto-Debit) →
+                </button>
+                <button class="btn btn-secondary btn-block" onclick="App.navigateTo('autonomous')">
+                  Return to Store Shelf
+                </button>
+              </div>
+            </div>
+          </section>
+
+        </div> <!-- /screen-container -->
+
+        <!-- Phone Home Indicator Bar -->
+        <div class="phone-home-indicator"></div>
+
+      </div> <!-- /smartphone-frame -->
+
+    </div> <!-- /device-stage -->
+  </main>
+
+  <!-- ==========================================
+       MODAL 1: PRODUCT DETAILS MODAL
+       ========================================== -->
+  <div id="product-modal" class="modal-overlay">
+    <div class="modal-window" style="max-width: 380px;">
+      <div class="modal-header">
+        <h4 id="modal-product-name" class="modal-title">Product Details</h4>
+        <button class="modal-close-btn" onclick="App.closeProductModal()">✕</button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <div id="modal-icon-holder" style="height: 100px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;"></div>
+        <div id="modal-product-price" style="font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 4px;">₹20</div>
+        <p id="modal-product-weight" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">52g • Aisle 1</p>
+        <p id="modal-product-desc" style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 20px;">Crispy golden chips.</p>
+
+        <!-- Quantity Stepper -->
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px;">
+          <button class="step-btn" style="width: 40px; height: 40px; font-size: 1.2rem; border: 1px solid #cbd5e1; border-radius: 8px;" onclick="App.updateModalQty(-1)">−</button>
+          <span id="modal-qty-val" style="font-size: 1.2rem; font-weight: 700;">1</span>
+          <button class="step-btn" style="width: 40px; height: 40px; font-size: 1.2rem; border: 1px solid #cbd5e1; border-radius: 8px;" onclick="App.updateModalQty(1)">+</button>
+        </div>
+
+        <button class="btn btn-primary btn-block" onclick="App.confirmModalAddToCart()" data-i18n="addToCart">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: STORE ASSISTANT DISPATCH MODAL
+       ========================================== -->
+  <div id="assistant-modal" class="modal-overlay">
+    <div class="modal-window" style="max-width: 400px; text-align: center;">
+      <div class="modal-header">
+        <h4 class="modal-title" data-i18n="assistantRequestedTitle">Store Assistant Requested ✓</h4>
+        <button class="modal-close-btn" onclick="App.closeAssistantModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size: 3rem; margin-bottom: 12px;">🧑‍💼</div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Rajesh Kumar (Floor Captain)</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;" data-i18n="assistantRequestedSub">
+          Dispatched to your aisle. He will assist you with scanning or payment.
+        </p>
+        <div style="background: #fef3c7; color: #b45309; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; margin-bottom: 20px;" data-i18n="assistantEta">
+          Estimated arrival in your aisle: 2 mins
+        </div>
+        <button class="btn btn-secondary btn-block" onclick="App.closeAssistantModal()" data-i18n="assistantDismiss">
+          Dismiss Notice
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 3: DESIGN THINKING PROJECT INSIGHTS
+       ========================================== -->
+  <div id="design-thinking-modal" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div>
+          <h4 class="modal-title">Design Thinking Project Overview</h4>
+          <small style="color: var(--text-muted);">Self-Checkout & Checkout-Free Supermarket System</small>
+        </div>
+        <button class="modal-close-btn" onclick="App.closeDesignThinkingModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="dt-quote-box">
+          <strong>"How Might We" Question:</strong><br>
+          "How might we design a convenient, secure, and easy-to-use self-checkout or checkout-free system that reduces customer waiting time while providing a reliable shopping experience?"
+        </div>
+
+        <div class="dt-stage-card">
+          <h4><span class="dt-stage-tag">STAGE 1</span> Empathize: Customer Pain Points</h4>
+          <ul>
+            <li><strong>Long checkout queues:</strong> Average customer waits 8 to 14 minutes during peak supermarket hours.</li>
+            <li><strong>Manual scanning friction:</strong> Clunky fixed self-checkout kiosks often fail on barcode readability.</li>
+            <li><strong>Payment anxiety:</strong> Customers worry about duplicate charges or unverified totals.</li>
+            <li><strong>Technological intimidation:</strong> Older customers find complicated kiosk screens difficult.</li>
+          </ul>
+        </div>
+
+        <div class="dt-stage-card">
+          <h4><span class="dt-stage-tag">STAGE 2</span> Define: Core User Requirements</h4>
+          <ul>
+            <li><strong>Speed:</strong> Scan on-the-go while putting products into the cart.</li>
+            <li><strong>Simplicity:</strong> Minimal taps, multilingual support (English, Telugu, Hindi).</li>
+            <li><strong>Security:</strong> Visible 3-step security check, encrypted UPI, transparent tax receipts.</li>
+            <li><strong>Reliability:</strong> Fail-safe fallbacks: Manual barcode keypad, alternate payments, and 1-tap store assistant dispatch.</li>
+          </ul>
+        </div>
+
+        <div class="dt-stage-card">
+          <h4><span class="dt-stage-tag">STAGE 3</span> Ideate & Prototype Architecture</h4>
+          <p>We designed a dual-solution pathway:</p>
+          <ol>
+            <li><strong>Immediate Deployment (Mobile Self-Checkout):</strong> Turn every customer's smartphone into a portable scanner with instant UPI integration.</li>
+            <li><strong>Future-State Autonomous Store (Vision & RFID):</strong> Ceiling-mounted cameras + smart cart weight differential sensors for grab-and-walk checkout.</li>
+          </ol>
+        </div>
+
+        <div class="dt-stage-card">
+          <h4><span class="dt-stage-tag">STAGE 4</span> Usability & Testing Metrics</h4>
+          <ul>
+            <li><strong>Wait Time Reduction:</strong> 85% drop (from 11 mins to ~45 seconds).</li>
+            <li><strong>First-Time User Task Success:</strong> 96.4% across tested demographics.</li>
+            <li><strong>Trust & Security Score:</strong> 4.8 / 5.0 in user confidence metrics.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 4: AMAZON GO JUST WALK OUT TECHNOLOGY & ARCHITECTURE
+       ========================================== -->
+  <div id="amazon-go-concept-modal" class="modal-overlay">
+    <div class="modal-window" style="max-width: 680px;">
+      <div class="modal-header">
+        <div>
+          <h4 class="modal-title">How Amazon Go "Just Walk Out" Works</h4>
+          <small style="color: var(--text-muted);">Design Thinking Technology Breakdown: Computer Vision + Sensor Fusion</small>
+        </div>
+        <button class="modal-close-btn" onclick="App.closeAmazonGoConceptModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="concept-explainer-banner" style="margin-bottom: 18px;">
+          <strong>🎯 The Customer Experience (No Queues, Zero Friction):</strong>
+          You scan your entry pass at the turnstile, pick up items from shelves, put them in your bag, and walk out. No checkout lines, no waiting for slow scanners, and no cashier interactions.
+        </div>
+
+        <div class="explainer-step-card">
+          <div class="explainer-step-icon">📸</div>
+          <div class="explainer-step-body">
+            <h4>1. Overhead 4K RGB-D Vision Cameras</h4>
+            <p>Hundreds of ceiling cameras use deep learning and spatial tracking to follow customer silhouettes in 3D without facial recognition. The system accurately recognizes when a hand reaches into a specific shelf coordinate.</p>
+          </div>
+        </div>
+
+        <div class="explainer-step-card">
+          <div class="explainer-step-icon">⚖️</div>
+          <div class="explainer-step-body">
+            <h4>2. Precision Weight-Sensing Shelves</h4>
+            <p>Each shelf slot contains micro-strain-gauge load cells that tare and detect exact weight changes (e.g. -52g when Lay's chips are removed). If an item is put back, the load cell immediately triggers auto-removal.</p>
+          </div>
+        </div>
+
+        <div class="explainer-step-card">
+          <div class="explainer-step-icon">🧠</div>
+          <div class="explainer-step-body">
+            <h4>3. Sensor Fusion Algorithm</h4>
+            <p>Merges visual camera pixels and shelf weight measurements to ensure 100% accuracy. Even if 3 people reach for chips at the same second, the algorithm cross-correlates hand trajectory with load differentials.</p>
+          </div>
+        </div>
+
+        <div class="explainer-step-card">
+          <div class="explainer-step-icon">🚪</div>
+          <div class="explainer-step-body">
+            <h4>4. Frictionless Exit Turnstiles</h4>
+            <p>Passing through the exit threshold signals the session completion. The digital receipt is generated and charged to UPI / credit card, and an itemized invoice is dispatched via WhatsApp in seconds.</p>
+          </div>
+        </div>
+
+        <!-- Comparison Table for College Presentation -->
+        <h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin: 18px 0 8px;">
+          Comparison: Traditional vs Self-Checkout vs Amazon Go
+        </h4>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; text-align: left;">
+            <thead>
+              <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1;">
+                <th style="padding: 8px;">Factor</th>
+                <th style="padding: 8px;">Traditional Store</th>
+                <th style="padding: 8px;">Self-Checkout Kiosk</th>
+                <th style="padding: 8px; background: #ecfdf5; color: #059669;">Amazon Go (Ours)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 8px; font-weight: 700;">Wait Time</td>
+                <td style="padding: 8px; color: #dc2626;">8 - 14 mins</td>
+                <td style="padding: 8px; color: #d97706;">4 - 6 mins</td>
+                <td style="padding: 8px; font-weight: 800; color: #059669; background: #f0fdf4;">0 mins (Instant)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 8px; font-weight: 700;">Scanning</td>
+                <td style="padding: 8px;">Cashier barcode beep</td>
+                <td style="padding: 8px;">Customer manual scan</td>
+                <td style="padding: 8px; font-weight: 800; color: #059669; background: #f0fdf4;">Automatic Computer Vision</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 8px; font-weight: 700;">Scanning Friction</td>
+                <td style="padding: 8px;">Slow barcode lines</td>
+                <td style="padding: 8px;">Crumpled barcode errors</td>
+                <td style="padding: 8px; font-weight: 800; color: #059669; background: #f0fdf4;">Zero barcode friction</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; font-weight: 700;">Payment Flow</td>
+                <td style="padding: 8px;">Cash / POS terminal</td>
+                <td style="padding: 8px;">Kiosk Card swipe</td>
+                <td style="padding: 8px; font-weight: 800; color: #059669; background: #f0fdf4;">Just Walk Out Auto-Debit</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Presenter Quick Jump Dock at Bottom -->
+  <nav class="presenter-quick-dock">
+    <span class="dock-label">Jump to:</span>
+    <button class="dock-pill" onclick="App.navigateTo('welcome')">Welcome</button>
+    <button class="dock-pill" onclick="App.navigateTo('amazon_go_entry')">Go Turnstile</button>
+    <button class="dock-pill" onclick="App.navigateTo('scan')">AI Vision</button>
+    <button class="dock-pill" onclick="App.navigateTo('autonomous')">Smart Shelf</button>
+    <button class="dock-pill" onclick="App.navigateTo('amazon_go_exit')">Go Exit</button>
+    <button class="dock-pill" onclick="App.navigateTo('home')">Store Catalog</button>
+    <button class="dock-pill" onclick="App.navigateTo('cart')">Cart</button>
+    <button class="dock-pill" onclick="App.navigateTo('payment')">Payment</button>
+    <button class="dock-pill" onclick="App.navigateTo('success')">Receipt</button>
+  </nav>
+
+  <!-- App Toast Notification -->
+  <div id="app-toast" class="app-toast"></div>
+
+  <!-- Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

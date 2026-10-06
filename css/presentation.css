@@ -1,0 +1,284 @@
+/* ==========================================================================
+   Presenter Studio & Design Thinking Showcase Styles
+   ========================================================================== */
+
+/* Top Presenter Bar */
+.presenter-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 1000;
+  color: #ffffff;
+}
+
+.presenter-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.presenter-logo {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.presenter-tag {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.presenter-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Control Pills */
+.ctrl-btn {
+  background: #1e293b;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.ctrl-btn:hover {
+  background: #334155;
+  color: #ffffff;
+}
+
+.ctrl-btn.active {
+  background: #059669;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+.ctrl-btn.demo-highlight {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+  animation: demoGlow 2s infinite ease-in-out alternate;
+}
+
+@keyframes demoGlow {
+  0% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
+  100% { box-shadow: 0 0 22px rgba(16, 185, 129, 0.7); }
+}
+
+/* Language Switcher */
+.lang-toggle-group {
+  display: flex;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.lang-btn.active {
+  background: #059669;
+  color: #ffffff;
+}
+
+/* Quick Jump Dock at Bottom */
+.presenter-quick-dock {
+  position: fixed;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 40px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.dock-label {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-right: 6px;
+  letter-spacing: 0.5px;
+}
+
+.dock-pill {
+  background: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.dock-pill:hover {
+  background: #334155;
+  color: #ffffff;
+}
+
+.dock-pill.active {
+  background: #10b981;
+  color: #000000;
+  border-color: #10b981;
+  font-weight: 700;
+}
+
+/* Design Thinking Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  padding: 20px;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-window {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 650px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.92) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.modal-close-btn {
+  background: #e2e8f0;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.6;
+}
+
+/* Design Thinking Framework Cards inside Modal */
+.dt-stage-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.dt-stage-card h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.dt-stage-tag {
+  background: #10b981;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.dt-quote-box {
+  background: #ecfdf5;
+  border-left: 4px solid #059669;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #065f46;
+  margin: 16px 0;
+  font-style: italic;
+}
